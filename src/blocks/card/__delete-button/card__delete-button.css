@@ -18,6 +18,11 @@
   transition: 0.3s;
 }
 
-.card__delete-button:hover {
+.card__delete-button:not(:disabled):hover {
   opacity: 0.6;
+}
+
+.card__delete-button-disabled {
+  display: none;
+  opacity: 0;
 }

@@ -1,25 +1,28 @@
-export function createCard( cardData, removeCallback, toggleLikeCallback, openImageCallback) {
-  const cardElement = document.querySelector("#card-template").content.querySelector(".card").cloneNode(true);
-  const cardImage = cardElement.querySelector(".card__image");
-  const cardTitle = cardElement.querySelector(".card__title");
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-  const likeButton = cardElement.querySelector(".card__like-button");
+// @todo: Темплейт карточки и Функция создания карточки
+const cardTemplate = document.querySelector('#card-template').content;
 
-  cardImage.src = cardData.link;
-  cardImage.alt = cardData.name;
-  cardTitle.textContent = cardData.name;
+export function createCard(item, deleteCardPopup, likeCard, openImage, likes, idUser, idCard, globalUserId) {
+  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
-  deleteButton.addEventListener("click", removeCallback);
-  likeButton.addEventListener("click", toggleLikeCallback);
-  cardImage.addEventListener("click", openImageCallback);
+  const buttonIsMy = cardElement.querySelector('.card__delete-button');
+  if (idUser !== globalUserId) {
+    buttonIsMy.classList.add('card__delete-button-disabled');
+    buttonIsMy.disabled = true;
+  } 
+
+  cardElement.querySelector('.card__title').textContent = item.name;
+  cardElement.querySelector('.card_like-count').textContent = likes;
+  const cardImage = cardElement.querySelector('.card__image');
+  cardImage.src = item.link; 
+  cardImage.alt = item.name;
+
+  buttonIsMy.addEventListener('click', () => deleteCardPopup(idCard, cardElement));
+
+
+  const isLike = cardElement.querySelector('.card__like-button');
+  isLike.addEventListener('click', () => likeCard(idCard, cardElement, isLike));
+
+  cardImage.addEventListener('click', () => openImage(item.name, item.link));
 
   return cardElement;
-}
-
-export function removeElement(event) {
-  event.currentTarget.closest(".card").remove();
-}
-
-export function toggleLike(event) {
-  event.currentTarget.classList.toggle("card__like-button_is-active");
 }

@@ -1,0 +1,9 @@
+.popup_content_avatar {
+    min-height: 272px;
+  }
+  
+  .popup__update-dialog {
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 29px;
+  }
