@@ -1,4 +1,9 @@
 .popup__form {
   margin-top: 27px;
-  color: red;
+}
+
+.popup__form-label {
+  display: flex;
+  position: relative;
+  margin-bottom: 33px;
 }

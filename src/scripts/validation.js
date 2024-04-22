@@ -72,11 +72,11 @@ export function enableValidation(settings) {
 };
 
 //сбрасывает валидацию формы, удаляя все ошибки и активируя кнопку отправки.
-export function clearValidation(profileForm, settings) {
-    const inputList = Array.from(profileForm.querySelectorAll(settings.inputSelector));
-    const buttonElement = profileForm.querySelector(settings.submitButtonSelector);
+export function clearValidation(targetElement, settings) {
+    const inputList = Array.from(targetElement.querySelectorAll(settings.inputSelector));
+    const buttonElement = targetElement.querySelector(settings.submitButtonSelector);
     inputList.forEach((inputElement) => {
-      hideInputError(profileForm, inputElement, settings.inputErrorClass, settings.errorClass);
+      hideInputError(targetElement, inputElement, settings.inputErrorClass, settings.errorClass);
     });
     toggleButtonState(inputList, buttonElement, settings.inactiveButtonClass);
 };

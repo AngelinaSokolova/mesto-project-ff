@@ -1,8 +1,8 @@
 import "./styles/index.css";
-import { createCard } from "./scripts/card.js";
+import { createCard, likeCards } from "./scripts/card.js";
 import { openModal, closeModal } from "./scripts/modal.js";
 import { enableValidation, clearValidation } from "./scripts/validation.js";
-import { getUser, getCards, postUser, postCard, deleteCardApi, putLike, deleteLike, patchUser } from "./scripts/api.js";
+import { getUser, getCards, postUser, postCard, deleteCardApi, patchUser } from "./scripts/api.js";
 
 const cardsContainer = document.querySelector('.places__list');
 let globalUserId = null;
@@ -20,14 +20,7 @@ Promise.all([getUser(), getCards()])
     // отрисовка карточек через api
     cardData.forEach((item) => {
       const card = createCard(item, deleteCardPopup, likeCards, openImageCard, item.likes.length, item.owner._id, item._id, globalUserId);
-      item.likes.forEach((like) => {
-        if (like._id === globalUserId) {
-        const isLike = card.querySelector('.card__like-button');
-        isLike.classList.add('card__like-button_is-active');
-      }
-      });
       cardsContainer.append(card);
-     
     });
   })
   .catch((err) => {
@@ -49,8 +42,8 @@ enableValidation(configValidation);
 
 // открытие и закрытие мадального окна
 
-const OpenModalEditProfile = document.querySelector('.profile__edit-button');
-const OpenModalAddCard = document.querySelector('.profile__add-button');
+const openModalEditProfile = document.querySelector('.profile__edit-button');
+const openModalAddCard = document.querySelector('.profile__add-button');
 
 const modalEditProfile = document.querySelector('.popup_type_edit');
 const modalAddCard = document.querySelector('.popup_type_new-card');
@@ -71,7 +64,7 @@ const formAddCard = document.forms['new-place'];
 const cardName = formAddCard.elements.placeName;
 const cardLink = formAddCard.elements.link;
 
-OpenModalAddCard.addEventListener('click', () => {
+openModalAddCard.addEventListener('click', () => {
   cardName.value = '';
   cardLink.value = '';
   clearValidation(modalAddCard, configValidation);
@@ -90,7 +83,7 @@ const formProfile = document.forms['edit-profile'];
 const nameInput = formProfile.elements.name;
 const descrInput  = formProfile.elements.description;
 
-OpenModalEditProfile.addEventListener('click', () => {
+openModalEditProfile.addEventListener('click', () => {
   nameInput.value = profilTitle.textContent;
   descrInput.value = profilDescr.textContent;
   clearValidation(modalEditProfile, configValidation);
@@ -99,7 +92,7 @@ OpenModalEditProfile.addEventListener('click', () => {
 
 const buttonLoad = document.querySelector('.button');
 
-function handleFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   buttonLoad.textContent = 'Сохранение...';
   postUser(nameInput.value, descrInput.value)
@@ -117,7 +110,7 @@ function handleFormSubmit(evt) {
   });
 }
 
-formProfile.addEventListener('submit', handleFormSubmit);
+formProfile.addEventListener('submit', handleProfileFormSubmit);
 
 // отрисовка карточки
 const formCard = document.forms['new-place'];
@@ -131,10 +124,9 @@ function handleFormSubmitCard(evt) {
     const placeInput = result.name;
     const linkInput  = result.link;
 
-    const card = createCard({ name: placeInput, link: linkInput }, deleteCardPopup, likeCards, openImageCard, result.likes.length, result.owner._id, result._id, globalUserId);
+    const card = createCard(result, deleteCardPopup, likeCards, openImageCard, result.likes.length, result.owner._id, result._id, globalUserId);
     cardsContainer.prepend(card);
     formCard.reset();
-
     closeModal(modalAddCard);
   })
   .catch((err) => {
@@ -166,42 +158,21 @@ const deletecCadrFromBase = document.querySelector('.popup__button-delete');
 
 function deleteCardPopup(cardId, card) {
   openModal(openDeleteModal);
-  deletecCadrFromBase.addEventListener('click', () => {
+  
+  function handleDeleteClick() {
     deleteCardApi(cardId)
       .then((result) => {
         console.log(result);
         card.remove();
         closeModal(openDeleteModal);
+        deletecCadrFromBase.removeEventListener('click', handleDeleteClick);
       })
       .catch((err) => {
-        console.log(err);
-      });
-  });
-}
-
-//лайк
-function likeCards(cardId, card, isLike) {
-  if (isLike.classList.contains('card__like-button_is-active')) {
-    isLike.classList.remove('card__like-button_is-active');
-    deleteLike(cardId)
-    .then((result) => {
-        card.querySelector('.card_like-count').textContent = result.likes.length;
-      })
-      .catch((err) => {
-        isLike.classList.add('card__like-button_is-active');
-        console.log(err);
-      });
-  } else {
-    isLike.classList.add('card__like-button_is-active');
-    putLike(cardId)
-    .then((result) => {
-        card.querySelector('.card_like-count').textContent = result.likes.length;
-      })
-      .catch((err) => {
-        isLike.classList.remove('card__like-button_is-active');
         console.log(err);
       });
   }
+
+  deletecCadrFromBase.addEventListener('click', handleDeleteClick);
 }
 
 //замена аватарки
