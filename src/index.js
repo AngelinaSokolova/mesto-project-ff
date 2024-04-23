@@ -90,11 +90,11 @@ openModalEditProfile.addEventListener('click', () => {
   openModal(modalEditProfile);
 });
 
-const buttonLoad = document.querySelector('.button');
+const saveProfileButton = document.getElementById('save-profile');
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  buttonLoad.textContent = 'Сохранение...';
+  saveProfileButton.textContent = 'Сохранение...';
   postUser(nameInput.value, descrInput.value)
   .then((result) => {
       profilTitle.textContent = result.name;
@@ -106,7 +106,7 @@ function handleProfileFormSubmit(evt) {
     console.log(err);
   })
   .finally(() => {
-    buttonLoad.textContent = 'Сохранить';
+    saveProfileButton.textContent = 'Сохранить';
   });
 }
 
@@ -115,10 +115,11 @@ formProfile.addEventListener('submit', handleProfileFormSubmit);
 // отрисовка карточки
 const formCard = document.forms['new-place'];
 
+const saveCardButton = document.getElementById('save-card');
 
 function handleFormSubmitCard(evt) {
   evt.preventDefault();
-  buttonLoad.textContent = 'Сохранение...';
+  saveCardButton.textContent = 'Сохранение...';
   postCard(formCard.elements.placeName.value, formCard.elements.link.value)
   .then((result) => {
     const placeInput = result.name;
@@ -133,7 +134,7 @@ function handleFormSubmitCard(evt) {
     console.log(err);
   })
   .finally(() => {
-    buttonLoad.textContent = 'Сохранить';
+    saveCardButton.textContent = 'Сохранить';
   });
 }
 
@@ -182,6 +183,8 @@ const modalAvatar = document.querySelector('.popup_card_update-avatar');
 const formAvatar = document.forms['update-avatar'];
 const avatarInput = formAvatar.elements.avatar;
 
+const saveAvatarButton = document.getElementById('save-avatar');
+
 userAvatar.addEventListener('click', () => {
   openModal(modalAvatar);
   avatarInput.value = '';
@@ -190,18 +193,18 @@ userAvatar.addEventListener('click', () => {
 
 function handleFormSubmitAvatar(evt) {
   evt.preventDefault();
-  buttonLoad.textContent = 'Сохранение...';
+  saveAvatarButton.textContent = 'Сохранение...';
   patchUser(avatarInput.value)
   .then((result) => {
     userAvatar.style.backgroundImage = `url(${result.avatar})`;
-    closeModal(modalAvatar)
+    closeModal(modalAvatar);
   })
   .catch((err) => {
     console.log(err);
   })
   .finally(() => {
-    buttonLoad.textContent = 'Сохранить';
+    saveAvatarButton.textContent = 'Сохранить';
   });
 }
 
-formAvatar.addEventListener('submit', handleFormSubmitAvatar)
+formAvatar.addEventListener('submit', handleFormSubmitAvatar);

@@ -18,37 +18,14 @@ const config = {
         headers: config.headers
     })
     .then((res) => checkResponse(res))
-    .then((info) => {
-        // Изменяем данные при необходимости
-        return info;
-    })
-    .finally(() => {
-        // Здесь можно выполнить дополнительные действия после завершения запроса
-    })
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        return err;
-    });
-  }  
+  }
   
   async function getCards() {
     return fetch(`${config.baseUrl}/cards`, {
         headers: config.headers
     })
     .then((res) => checkResponse(res))
-    .then((info) => {
-        // Изменяем данные при необходимости
-        return info;
-    })
-    .finally(() => {
-        // Здесь можно выполнить дополнительные действия после завершения запроса
-    })
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        return err;
-    });
   }
-
   
   async function postUser(title, descr) {
     return fetch(`${config.baseUrl}/users/me`, {
@@ -60,17 +37,6 @@ const config = {
       })
     })
     .then((res) => checkResponse(res))
-    .then((info) => {
-        // Изменяем данные при необходимости
-        return info;
-    })
-    .finally(() => {
-        // Здесь можно выполнить дополнительные действия после завершения запроса
-    })
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        return err;
-    });
   }
   
   async function postCard(name, link) {
@@ -83,17 +49,6 @@ const config = {
       })
     })
     .then((res) => checkResponse(res))
-    .then((info) => {
-        // Изменяем данные при необходимости
-        return info;
-    })
-    .finally(() => {
-        // Здесь можно выполнить дополнительные действия после завершения запроса
-    })
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        return err;
-    });
   }
   
   async function deleteCardApi(cardId) {
@@ -102,17 +57,6 @@ const config = {
       headers: config.headers
     })
     .then((res) => checkResponse(res))
-    .then((info) => {
-        // Изменяем данные при необходимости
-        return info;
-    })
-    .finally(() => {
-        // Здесь можно выполнить дополнительные действия после завершения запроса
-    })
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        return err;
-    });
   }
   
   async function putLike(cardId) {
@@ -121,17 +65,6 @@ const config = {
       headers: config.headers
     })
     .then((res) => checkResponse(res))
-    .then((info) => {
-        // Изменяем данные при необходимости
-        return info;
-    })
-    .finally(() => {
-        // Здесь можно выполнить дополнительные действия после завершения запроса
-    })
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        return err;
-    });
   }
   
   async function deleteLike(cardId) {
@@ -140,17 +73,6 @@ const config = {
       headers: config.headers
     })
     .then((res) => checkResponse(res))
-    .then((info) => {
-        // Изменяем данные при необходимости
-        return info;
-    })
-    .finally(() => {
-        // Здесь можно выполнить дополнительные действия после завершения запроса
-    })
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        return err;
-    });
   }
   
   async function patchUser(url) {
@@ -162,17 +84,6 @@ const config = {
       })
     })
     .then((res) => checkResponse(res))
-    .then((info) => {
-        // Изменяем данные при необходимости
-        return info;
-    })
-    .finally(() => {
-        // Здесь можно выполнить дополнительные действия после завершения запроса
-    })
-    .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-        return err;
-    });
   }
   
   export {getUser, getCards, postUser, postCard, deleteCardApi, putLike, deleteLike, patchUser};
